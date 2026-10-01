@@ -1,0 +1,30 @@
+FROM python:3.14-slim AS base
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_SYSTEM_PYTHON=1 \
+    UV_NO_CACHE=1
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
+
+COPY . .
+
+RUN chmod +x /app/docker-entrypoint.sh && \
+    useradd --create-home --uid 1000 gymbro && \
+    chown -R gymbro:gymbro /app
+USER gymbro
+
+EXPOSE 8000
+
+ENV PATH="/app/.venv/bin:$PATH"
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--log-level", "info"]

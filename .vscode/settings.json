@@ -1,0 +1,3 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/gym-bro-backend/.venv/bin/python"
+}

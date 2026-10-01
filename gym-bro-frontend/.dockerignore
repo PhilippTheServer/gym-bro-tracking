@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.git/
+.gitignore
+*.md
+.angular/
+coverage/
+.env
+.env.*
+
+# macOS AppleDouble sidecars — binary, and Alembic would try to import them
+._*
+.DS_Store
