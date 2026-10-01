@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.env.*
+*.egg-info/
+dist/
+build/
+.git/
+.gitignore
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.venv/
+venv/
+node_modules/
+*.log
+
+# macOS AppleDouble sidecars — binary, and Alembic would try to import them
+._*
+.DS_Store

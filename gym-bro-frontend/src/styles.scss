@@ -1,0 +1,167 @@
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-primary:   #000000;   /* true OLED black */
+  --surface-1:    #1c1c1e;
+  --surface-2:    #2c2c2e;
+  --surface-3:    #3a3a3c;
+
+  /* Text */
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(235, 235, 245, 0.6);
+  --text-tertiary:  rgba(235, 235, 245, 0.3);
+
+  /* Separator */
+  --separator: rgba(84, 84, 88, 0.6);
+
+  /* Accent colours */
+  --accent-orange:  #ff9f0a;   /* primary action */
+  --accent-green:   #30d158;   /* success / completed */
+  --accent-blue:    #0a84ff;   /* links / secondary action */
+  --accent-red:     #ff453a;   /* destructive */
+  --accent-purple:  #bf5af2;   /* warmup */
+
+  /* Set-type colours */
+  --set-warmup:   var(--accent-purple);
+  --set-working:  var(--accent-blue);
+  --set-drop:     var(--accent-orange);
+  --set-failure:  var(--accent-red);
+
+  /* Border radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Typography */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+          'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Allow text selection in inputs */
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ── Typography scale ──────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 { margin: 0; font-family: var(--font); color: var(--text-primary); }
+p { margin: 0; color: var(--text-secondary); }
+a { color: var(--accent-blue); text-decoration: none; }
+
+/* ── Inputs ────────────────────────────────────────────────────────────────── */
+input, textarea, select {
+  font-family: var(--font);
+  color-scheme: dark;
+}
+
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* ── View Transitions ──────────────────────────────────────────────────────── */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 220ms ease-out slide-out;
+}
+
+::view-transition-new(root) {
+  animation: 220ms ease-out slide-in;
+}
+
+@keyframes slide-out {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-20px); opacity: 0; }
+}
+
+@keyframes slide-in {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* ── Bottom sheets and the tab bar ─────────────────────────────────────────── */
+/* Every bottom sheet is a `<dialog class="sheet-backdrop">` that ModalSheetDirective opens
+   as a modal, which renders it in the top layer. Left in place inside the scrolling
+   content, iOS WebKit clipped it to that scroller and cut off its bottom button. These
+   rules undo the user-agent dialog styles, which would shrink it to a centred, padded,
+   bordered box; each component still positions its own sheet. */
+dialog.sheet-backdrop {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  overflow: hidden;
+}
+
+dialog.sheet-backdrop:not([open]) {
+  display: none;
+}
+
+dialog.sheet-backdrop::backdrop {
+  background: transparent;
+}
+
+/* The tab bar steps out while a sheet is open, and returns when the last one closes.
+   Global because it spans the shell, the tab bar and every sheet. */
+.bottom-nav {
+  transition: transform 200ms ease, opacity 200ms ease, visibility 200ms;
+}
+
+.app-shell:has(.sheet-backdrop) .bottom-nav {
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ── Utility ────────────────────────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}

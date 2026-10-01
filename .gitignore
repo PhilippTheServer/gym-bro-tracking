@@ -1,0 +1,28 @@
+# Environments / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+coverage/
+out-tsc/
+
+# Editors & OS
+.DS_Store
+*.swp
+
+# Visual brainstorming companion scratch space
+.superpowers/
